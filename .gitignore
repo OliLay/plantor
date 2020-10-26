@@ -8,3 +8,5 @@
 /cmake-build-minsizerel/
 
 /include/config/Secrets.h
+/CMakeLists.txt
+/CMakeListsPrivate.txt
