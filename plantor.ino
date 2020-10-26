@@ -1,4 +1,5 @@
 #include "LedControl.h"
+#include "WiFiControl.h"
 
 // IO PINs Setup
 const uint8_t LED_STATUS_GREEN_PIN = 2;
@@ -16,7 +17,7 @@ void setup() {
 }
 
 void loop() {
-  statusLed.getGreenLed().blinkSmoothly(3);
-  statusLed.getRedLed().blinkSmoothly(3);
-  statusLed.getBlueLed().blinkSmoothly(3);
+  statusLed.getGreenLed().blinkSmoothly(1);
+  statusLed.getRedLed().blinkSmoothly(1);
+  statusLed.getBlueLed().blinkSmoothly(1);
 }
