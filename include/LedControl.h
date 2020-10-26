@@ -7,10 +7,10 @@ class LED {
   public:
     LED(uint8_t pin);
 
-    void setup();
-    void turnOn();
-    void turnOff();
-    void blinkSmoothly(int repetitions);
+    void setup() const;
+    void turnOn() const;
+    void turnOff() const;
+    void blinkSmoothly(int repetitions) const;
 
   private:
     uint8_t pin;
@@ -21,6 +21,8 @@ class RGB_LED {
     RGB_LED(uint8_t redPin, uint8_t greenPin, uint8_t bluePin) : redLed(redPin), greenLed(greenPin), blueLed(bluePin) {};
 
     void setup();
+
+    void turnOffAll();
 
     LED getRedLed();
     LED getGreenLed();

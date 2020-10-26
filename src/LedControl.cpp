@@ -4,20 +4,20 @@ LED::LED(uint8_t pin) {
   this->pin = pin;
 }
 
-void LED::setup() {
+void LED::setup() const {
   pinMode(pin, OUTPUT);
   turnOff();
 }
 
-void LED::turnOn() {
+void LED::turnOn() const {
   analogWrite(pin, MAX_BRIGHTNESS);
 }
 
-void LED::turnOff() {
+void LED::turnOff() const {
   analogWrite(pin, MIN_BRIGHTNESS);
 }
 
-void LED::blinkSmoothly(int repetitions) {
+void LED::blinkSmoothly(int repetitions) const {
   uint8_t current = MIN_BRIGHTNESS;
   uint8_t desired = MAX_BRIGHTNESS;
 
@@ -63,4 +63,10 @@ LED RGB_LED::getGreenLed() {
 
 LED RGB_LED::getBlueLed() {
   return blueLed;
+}
+
+void RGB_LED::turnOffAll() {
+  redLed.turnOff();
+  greenLed.turnOff();
+  blueLed.turnOff();
 }

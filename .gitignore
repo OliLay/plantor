@@ -1,1 +1,10 @@
 /.idea/
+/.pio/
+/cmake-build-debug/
+/cmake-build-default/
+/cmake-build-release/
+/cmake-build-relwithdebinfo/
+/cmake-build-mkr1000usb/
+/cmake-build-minsizerel/
+
+/include/config/Secrets.h
