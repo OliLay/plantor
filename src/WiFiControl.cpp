@@ -1,4 +1,4 @@
-#include "WiFiControl.h"
+#include "io/WiFiControl.h"
 
 void WiFiControl::setup() {
   WiFi.hostname(HOSTNAME);
@@ -13,5 +13,4 @@ bool WiFiControl::connect() {
     Serial.println("Could not connect to WiFi");
     return false;
   }
-
 }

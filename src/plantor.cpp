@@ -1,27 +1,22 @@
 #include "Arduino.h"
-#include "LedControl.h"
-#include "WiFiControl.h"
+#include "io/LedControl.h"
+#include "io/WiFiControl.h"
 #include "config/Secrets.h"
 
-// IO PINs Setup
-const uint8_t LED_EXTERNAL_GREEN_PIN = 2;
-const uint8_t LED_EXTERNAL_BLUE_PIN = 3;
-const uint8_t LED_EXTERNAL_RED_PIN = 4;
-
-LED internalLed = LED(LED_BUILTIN);
-RGB_LED externalLed = RGB_LED(LED_EXTERNAL_RED_PIN, LED_EXTERNAL_GREEN_PIN, LED_EXTERNAL_BLUE_PIN);
 WiFiControl wiFiControl = WiFiControl((char*) WIFI_SSID, (char*) WIFI_PASSWORD);
+LEDControl ledControl = LEDControl();
 
 void setup() {
+  // safety delay, to be able to upload a new sketch
+  delay(4000);
   Serial.begin(9600);
 
-  internalLed.setup();
-  externalLed.setup();
+  ledControl.setup();
 
   if (wiFiControl.connect()) {
-    externalLed.getGreenLed().turnOn();
+    ledControl.displayNormalState();
   } else {
-    externalLed.getRedLed().turnOn();
+    ledControl.displayErrorState();
   }
 }
 

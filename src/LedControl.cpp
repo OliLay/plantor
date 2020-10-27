@@ -1,72 +1,28 @@
-#include "LedControl.h"
+#include "io/LedControl.h"
+#include "config/Config.h"
 
-LED::LED(uint8_t pin) {
-  this->pin = pin;
+
+void LEDControl::setup() {
+  auto internalLed = std::shared_ptr<LED>(new OnePinLED(LED_BUILTIN));
+  auto externalLed = std::shared_ptr<LED>(new RGBLED(LED_EXTERNAL_RED_PIN, LED_EXTERNAL_GREEN_PIN, LED_EXTERNAL_BLUE_PIN));
+
+  addStatusLed(internalLed);
+  addStatusLed(externalLed);
 }
 
-void LED::setup() const {
-  pinMode(pin, OUTPUT);
-  turnOff();
+void LEDControl::addStatusLed(const std::shared_ptr<LED>& led) {
+  led->setup();
+  statusLeds.push_back(led);
 }
 
-void LED::turnOn() const {
-  analogWrite(pin, MAX_BRIGHTNESS);
-}
-
-void LED::turnOff() const {
-  analogWrite(pin, MIN_BRIGHTNESS);
-}
-
-void LED::blinkSmoothly(int repetitions) const {
-  uint8_t current = MIN_BRIGHTNESS;
-  uint8_t desired = MAX_BRIGHTNESS;
-
-  repetitions = repetitions * 2;
-
-  while (repetitions > 0) {
-    while (current != desired) {
-      if (current < desired) {
-        current = current + 5;
-      } else {
-        current = current - 5;
-      }
-      analogWrite(pin, current);
-
-      delay(25);
-    }
-
-    if (desired == MAX_BRIGHTNESS) {
-      desired = MIN_BRIGHTNESS;
-    } else {
-      desired = MAX_BRIGHTNESS;
-    }
-
-    repetitions--;
-    delay(500);
+void LEDControl::displayErrorState() {
+  for (const auto& led : statusLeds) {
+    led->displayErrorState();
   }
 }
 
-void RGB_LED::setup() {
-  redLed.setup();
-  greenLed.setup();
-  blueLed.setup();
-}
-
-
-LED RGB_LED::getRedLed() {
-  return redLed;
-}
-
-LED RGB_LED::getGreenLed() {
-  return greenLed;
-}
-
-LED RGB_LED::getBlueLed() {
-  return blueLed;
-}
-
-void RGB_LED::turnOffAll() {
-  redLed.turnOff();
-  greenLed.turnOff();
-  blueLed.turnOff();
+void LEDControl::displayNormalState() {
+  for (const auto& led : statusLeds) {
+    led->displayNormalState();
+  }
 }
