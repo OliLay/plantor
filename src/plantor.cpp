@@ -1,10 +1,11 @@
 #include "Arduino.h"
 #include "io/LedControl.h"
 #include "io/WiFiControl.h"
-#include "config/Secrets.h"
+#include "io/MQTTControl.h"
 
-WiFiControl wiFiControl = WiFiControl((char*) WIFI_SSID, (char*) WIFI_PASSWORD);
 LEDControl ledControl = LEDControl();
+WiFiControl wiFiControl = WiFiControl();
+MQTTControl mqttControl = MQTTControl();
 
 void setup() {
   // safety delay, to be able to upload a new sketch
@@ -12,8 +13,10 @@ void setup() {
   Serial.begin(9600);
 
   ledControl.setup();
+  WiFiControl::setup();
+  mqttControl.setup();
 
-  if (wiFiControl.connect()) {
+  if (wiFiControl.connect() && mqttControl.connect()) {
     ledControl.displayNormalState();
   } else {
     ledControl.displayErrorState();
@@ -21,7 +24,10 @@ void setup() {
 }
 
 void loop() {
+  mqttControl.sendKeepAlive();
+  mqttControl.publish("Topic", "Test");
 
+  delay(1337);
 }
 
 

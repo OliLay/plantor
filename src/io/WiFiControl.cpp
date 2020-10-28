@@ -5,12 +5,13 @@ void WiFiControl::setup() {
 }
 
 bool WiFiControl::connect() {
-  status = WiFi.begin(ssid, password);
+  status = WiFi.begin((char*) WIFI_SSID, (char*) WIFI_PASSWORD);
 
   if (status == WL_CONNECTED) {
+    log("WiFi: Connected to WiFi %s.", WIFI_SSID);
     return true;
   } else {
-    Serial.println("Could not connect to WiFi");
+    log("WiFi: Could not connect to WiFi, status is %i", status);
     return false;
   }
 }
