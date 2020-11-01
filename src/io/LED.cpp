@@ -9,8 +9,12 @@ void OnePinLED::setup() {
   turnOff();
 }
 
+void OnePinLED::turnOn(uint8_t brightness) const {
+  analogWrite(pin, brightness);
+}
+
 void OnePinLED::turnOn() {
-  analogWrite(pin, MAX_BRIGHTNESS);
+  turnOn(MAX_BRIGHTNESS);
 }
 
 void OnePinLED::turnOff() {
@@ -54,6 +58,12 @@ void OnePinLED::displayNormalState() {
   turnOff();
 }
 
+void OnePinLED::displayLoadingState() {
+  // we only have binary on or off atm - so loading should be displayed as a "normal" state and LED should be off
+  // TODO: rather blink
+  turnOff();
+}
+
 void RGBLED::setup() {
   redLed.setup();
   greenLed.setup();
@@ -93,4 +103,10 @@ void RGBLED::displayErrorState() {
 void RGBLED::displayNormalState() {
   turnOff();
   greenLed.turnOn();
+}
+
+void RGBLED::displayLoadingState() {
+  turnOff();
+  redLed.turnOn(255);
+  greenLed.turnOn(165);
 }

@@ -12,6 +12,7 @@ public:
 
     virtual void displayErrorState() = 0;
     virtual void displayNormalState() = 0;
+    virtual void displayLoadingState() = 0;
 };
 
 class OnePinLED : public LED {
@@ -21,10 +22,12 @@ class OnePinLED : public LED {
     void setup() override;
 
     void turnOn() override;
+    void turnOn(uint8_t brightness) const;
     void turnOff() override;
 
     void displayErrorState() override;
     void displayNormalState() override;
+    void displayLoadingState() override;
 
     void blinkSmoothly(int repetitions) const;
 
@@ -43,6 +46,7 @@ class RGBLED : public LED {
 
     void displayErrorState() override;
     void displayNormalState() override;
+    void displayLoadingState() override;
 
     OnePinLED getRedLed();
     OnePinLED getGreenLed();

@@ -14,4 +14,8 @@ static const uint8_t LED_EXTERNAL_GREEN_PIN = 2;
 static const uint8_t LED_EXTERNAL_BLUE_PIN = 3;
 static const uint8_t LED_EXTERNAL_RED_PIN = 4;
 
+// Sensor Pins
+static const uint8_t DHT22_PIN = 6;
+static const uint8_t MOISTURE_SENSOR_PIN = A1;
+
 #endif

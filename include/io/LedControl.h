@@ -10,6 +10,8 @@ public:
 
     void displayErrorState();
 
+    void displayLoadingState();
+
     void displayNormalState();
 
 private:

@@ -26,3 +26,9 @@ void LEDControl::displayNormalState() {
     led->displayNormalState();
   }
 }
+
+void LEDControl::displayLoadingState() {
+  for (const auto& led : statusLeds) {
+    led->displayLoadingState();
+  }
+}

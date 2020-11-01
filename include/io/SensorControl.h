@@ -2,7 +2,10 @@
 #define PLANTOR_SENSORCONTROL_H
 
 #include <cstdint>
-#include "SI114X.h"
+#include "log/Logging.h"
+#include "Adafruit_SI1145.h"
+#include "DHT.h"
+#include "config/Config.h"
 
 class SensorControl {
 public:
@@ -14,10 +17,16 @@ public:
 
     double getUVIndex();
 
+    double getHumidity();
+
+    double getTemperature();
+
+    static uint16_t getMoisture();
+
 
 private:
-    SI114X lightSensor = SI114X();
+    Adafruit_SI1145 lightSensor = Adafruit_SI1145();
+    DHT tempHumiditySensor = DHT(DHT22_PIN, DHT22);
 };
-
 
 #endif //PLANTOR_SENSORCONTROL_H
