@@ -14,13 +14,10 @@ bool MQTTControl::connect() {
   return true;
 }
 
-void MQTTControl::sendKeepAlive() {
-  mqttClient.poll();
+bool MQTTControl::connected() {
+  return mqttClient.connected();
 }
 
-void MQTTControl::publish(const char *topic, const char *message) {
-  log("Published message %s on topic %s.", message, topic);
-  mqttClient.beginMessage(topic);
-  mqttClient.print(message);
-  mqttClient.endMessage();
+void MQTTControl::sendKeepAlive() {
+  mqttClient.poll();
 }
