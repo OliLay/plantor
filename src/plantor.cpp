@@ -55,7 +55,7 @@ void loop() {
   mqttControl.publish("moisture", SensorControl::getMoisture());
 
   ledControl.displayNormalState();
-  delay(300000);
+  delay(150000);
 }
 
 
