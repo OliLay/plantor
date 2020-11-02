@@ -11,6 +11,8 @@ class WiFiControl {
   public:
     static void setup();
 
+    void assureConnection();
+
     bool connect();
 
   private:

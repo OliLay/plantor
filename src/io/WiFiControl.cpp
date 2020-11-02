@@ -15,3 +15,9 @@ bool WiFiControl::connect() {
     return false;
   }
 }
+
+void WiFiControl::assureConnection() {
+  while (WiFi.status() != WL_CONNECTED) {
+    connect();
+  }
+}

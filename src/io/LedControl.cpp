@@ -32,3 +32,11 @@ void LEDControl::displayLoadingState() {
     led->displayLoadingState();
   }
 }
+
+void LEDControl::setStatus(bool success) {
+  if (success) {
+    displayNormalState();
+  } else {
+    displayErrorState();
+  }
+}

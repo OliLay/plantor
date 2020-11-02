@@ -2,12 +2,19 @@
 #define PLANTOR_MQTTCONTROL_H
 
 #include <ArduinoMqttClient.h>
+
+#include <utility>
 #include "WiFiControl.h"
 #include "log/Logging.h"
+#include "LedControl.h"
 
 class MQTTControl {
 public:
+    explicit MQTTControl(std::shared_ptr<LEDControl> ledControlPointer) : ledControl(std::move(ledControlPointer)) {};
+
     void setup();
+
+    void assureConnection();
 
     bool connect();
 
@@ -22,6 +29,7 @@ public:
 private:
     WiFiClient wiFiClient = WiFiClient();
     MqttClient mqttClient = MqttClient(wiFiClient);
+    std::shared_ptr<LEDControl> ledControl;
 };
 
 #endif //PLANTOR_MQTTCONTROL_H

@@ -107,6 +107,7 @@ void RGBLED::displayNormalState() {
 
 void RGBLED::displayLoadingState() {
   turnOff();
-  redLed.turnOn(255);
-  greenLed.turnOn(165);
+  redLed.turnOn(189);
+  greenLed.turnOn(183);
+  blueLed.turnOn(107);
 }

@@ -38,3 +38,16 @@ void MQTTControl::publish(const char *topic, uint16_t payload) {
   mqttClient.write(((unsigned) payload >> 8u) & 0xFFu);
   mqttClient.endMessage();
 }
+
+void MQTTControl::assureConnection() {
+  sendKeepAlive();
+  while (!connected()) {
+    ledControl->setStatus(false);
+    log("Reconnecting to MQTT broker...");
+    if (connect()) {
+      ledControl->setStatus(true);
+    } else {
+      delay(2500);
+    }
+  }
+}
