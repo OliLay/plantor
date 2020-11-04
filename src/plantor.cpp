@@ -22,10 +22,20 @@ void setup() {
   ledControl->setStatus(startupSucceeded);
 }
 
-void loop() {
-  ledControl->displayLoadingState();
-  wiFiControl->assureConnection();
-  mqttControl->assureConnection();
+// variables for timing
+const long interval = 150000;
+unsigned long previousMillis = -interval; // start at -interval to the loop will be run at the first time (helps debugging)
+
+void loop()
+{
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - previousMillis >= interval)
+  {
+    previousMillis = currentMillis;
+    ledControl->displayLoadingState();
+    wiFiControl->assureConnection();
+    mqttControl->assureConnection();
 
   mqttControl->publish("light/uv", sensorControl->getUVIndex());
   mqttControl->publish("light/ir", sensorControl->getIR());
@@ -35,7 +45,5 @@ void loop() {
   mqttControl->publish("moisture", SensorControl::getMoisture());
 
   ledControl->displayNormalState();
-  delay(150000);
+  }
 }
-
-

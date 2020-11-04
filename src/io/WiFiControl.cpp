@@ -1,10 +1,15 @@
 #include "io/WiFiControl.h"
 
-void WiFiControl::setup() {
-  WiFi.hostname(HOSTNAME);
+void WiFiControl::setup() { 
+  #if defined(ARDUINO_SAMD_NANO_33_IOT)
+    WiFi.setHostname(HOSTNAME);
+  #else
+    WiFi.hostname(HOSTNAME);
+  #endif
 }
 
 bool WiFiControl::connect() {
+  log("WiFi: Connecting to WiFi %s ...", WIFI_SSID);
   status = WiFi.begin((char*) WIFI_SSID, (char*) WIFI_PASSWORD);
 
   if (status == WL_CONNECTED) {

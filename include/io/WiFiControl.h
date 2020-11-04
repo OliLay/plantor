@@ -2,7 +2,13 @@
 #define PLANTOR_WIFICONTROL_H
 
 #include <Arduino.h>
-#include <WiFi101.h>
+
+#if defined(ARDUINO_SAMD_NANO_33_IOT)    
+  #include <WiFiNINA.h>
+#else
+  #include <WiFi101.h>
+#endif
+
 #include "config/Config.h"
 #include "config/Secrets.h"
 #include "log/Logging.h"

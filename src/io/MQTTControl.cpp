@@ -5,6 +5,7 @@ void MQTTControl::setup() {
 }
 
 bool MQTTControl::connect() {
+  log("MQTT: Connecting to broker");
   if (!mqttClient.connect(MQTT_BROKER_ADDRESS, 1883)) {
     log("MQTT: Failure connecting to the MQTT broker %s:%i", MQTT_BROKER_ADDRESS, MQTT_BROKER_PORT);
     return false;
