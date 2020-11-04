@@ -42,10 +42,11 @@ void MQTTControl::publish(const char *topic, uint16_t payload) {
 void MQTTControl::assureConnection() {
   sendKeepAlive();
   while (!connected()) {
-    ledControl->setStatus(false);
+    ledControl->displayErrorState();
     log("Reconnecting to MQTT broker...");
     if (connect()) {
-      ledControl->setStatus(true);
+      ledControl->displayLoadingState();
+      return;
     } else {
       delay(2500);
     }

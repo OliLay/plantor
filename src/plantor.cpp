@@ -4,7 +4,7 @@
 #include "io/SensorControl.h"
 
 std::shared_ptr<LEDControl> ledControl = std::unique_ptr<LEDControl>(new LEDControl());
-std::shared_ptr<WiFiControl> wiFiControl = std::unique_ptr<WiFiControl>(new WiFiControl());
+std::shared_ptr<WiFiControl> wiFiControl = std::unique_ptr<WiFiControl>(new WiFiControl(ledControl));
 std::shared_ptr<MQTTControl> mqttControl = std::unique_ptr<MQTTControl>(new MQTTControl(ledControl));
 std::shared_ptr<SensorControl> sensorControl = std::unique_ptr<SensorControl>(new SensorControl());
 

@@ -18,6 +18,10 @@ bool WiFiControl::connect() {
 
 void WiFiControl::assureConnection() {
   while (WiFi.status() != WL_CONNECTED) {
+    ledControl->displayErrorState();
     connect();
+    delay(5000);
   }
+
+  ledControl->displayLoadingState();
 }
