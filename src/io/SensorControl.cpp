@@ -38,6 +38,6 @@ double SensorControl::getTemperature() {
   return temperature;
 }
 
-uint16_t SensorControl::getMoisture() {
+uint32_t SensorControl::getMoisture() {
   return analogRead(MOISTURE_SENSOR_PIN);
 }
