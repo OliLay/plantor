@@ -21,7 +21,7 @@ public:
 
     double getTemperature();
 
-    static uint16_t getMoisture();
+    static uint32_t getMoisture();
 
 
 private:

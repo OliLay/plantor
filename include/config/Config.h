@@ -14,11 +14,8 @@ static const uint8_t LED_EXTERNAL_GREEN_PIN = 2;
 static const uint8_t LED_EXTERNAL_BLUE_PIN = 3;
 static const uint8_t LED_EXTERNAL_RED_PIN = 4;
 
-// Sensor Pins
-static const uint8_t DHT22_PIN = 6;
-
 #if defined(ARDUINO_SAMD_NANO_33_IOT)    
-    static const uint8_t MOISTURE_SENSOR_PIN = A7;
+    static const uint8_t MOISTURE_SENSOR_PIN = A2;
 #else
     static const uint8_t MOISTURE_SENSOR_PIN = A1;
 #endif

@@ -24,6 +24,8 @@ class WiFiControl {
 
     bool connect();
 
+    void disconnect();
+
   private:
     std::shared_ptr<LEDControl> ledControl;
 

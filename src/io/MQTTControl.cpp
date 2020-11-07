@@ -1,12 +1,15 @@
 #include "io/MQTTControl.h"
 
-void MQTTControl::setup() {
-  mqttClient.setId(MQTT_CLIENT_ID);
+void MQTTControl::setup()
+{
 }
 
-bool MQTTControl::connect() {
+bool MQTTControl::connect()
+{
+  mqttClient.begin(MQTT_BROKER_ADDRESS, MQTT_BROKER_PORT, wiFiClient);
   log("MQTT: Connecting to broker");
-  if (!mqttClient.connect(MQTT_BROKER_ADDRESS, 1883)) {
+  if (!mqttClient.connect(MQTT_CLIENT_ID))
+  {
     log("MQTT: Failure connecting to the MQTT broker %s:%i", MQTT_BROKER_ADDRESS, MQTT_BROKER_PORT);
     return false;
   }
@@ -15,48 +18,50 @@ bool MQTTControl::connect() {
   return true;
 }
 
-bool MQTTControl::connected() {
+bool MQTTControl::disconnect()
+{
+  return mqttClient.disconnect();
+}
+
+bool MQTTControl::connected()
+{
   return mqttClient.connected();
 }
 
-void MQTTControl::sendKeepAlive() {
-  mqttClient.poll();
+void MQTTControl::sendKeepAlive()
+{
 }
 
-void MQTTControl::publish(const char *topic, double payload) {
-  log("Publishing on topic %s with payload %f.", topic, payload);
-
-  mqttClient.beginMessage(topic, false, 2);
-  mqttClient.print(payload, 8);
-  mqttClient.endMessage();
+void MQTTControl::publish(const char *topic, double payload)
+{
+  log("Publishing on topic %s with payload %d.", topic, payload);
+  mqttClient.publish(topic, String(payload, 8));
 }
 
-void MQTTControl::publish(const char *topic, uint16_t payload) {
+void MQTTControl::publish(const char *topic, uint16_t payload)
+{
   log("Publishing on topic %s with payload %i.", topic, payload);
-
-  mqttClient.beginMessage(topic, false, 2);
-  mqttClient.print(payload);
-  mqttClient.endMessage();
+  mqttClient.publish(topic, String(payload));
+  log("done publishing");
 }
 
-void MQTTControl::publish(const char *topic, uint32_t payload) {
+void MQTTControl::publish(const char *topic, uint32_t payload)
+{
   log("Publishing on topic %s with payload %i.", topic, payload);
-
-  mqttClient.beginMessage(topic, false, 2);
-  mqttClient.print(payload);
-  mqttClient.endMessage();
+  mqttClient.publish(topic, String(payload));
+  log("done publishing");
 }
 
-void MQTTControl::assureConnection() {
-  sendKeepAlive();
-  while (!connected()) {
+void MQTTControl::assureConnection()
+{
+  while (!mqttClient.loop()) // this checks if connected and polls messages
+  {
     ledControl->displayErrorState();
     log("Reconnecting to MQTT broker...");
-    if (connect()) {
+    if (connect())
+    {
       ledControl->displayLoadingState();
       return;
-    } else {
-      delay(2500);
     }
   }
 }
