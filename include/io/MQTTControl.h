@@ -22,9 +22,9 @@ public:
 
     void sendKeepAlive();
 
-    void publish(const char* topic, double payload);
+    void publish(const char *topic, double payload);
 
-    void publish(const char* topic, uint16_t payload);
+    void publish(const char *topic, uint16_t payload);
 
 private:
     WiFiClient wiFiClient = WiFiClient();

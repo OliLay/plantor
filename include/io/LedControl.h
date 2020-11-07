@@ -19,6 +19,8 @@ public:
 
     void displayNormalState();
 
+    void displayColor(uint8_t r, uint8_t g, uint8_t b);
+
 private:
     // currently, this supports 2 LEDs (so we do not need a vector)
     static const uint8_t MAX_STATUS_LEDS = 2;
