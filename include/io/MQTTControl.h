@@ -1,8 +1,7 @@
 #ifndef PLANTOR_MQTTCONTROL_H
 #define PLANTOR_MQTTCONTROL_H
 
-#include <ArduinoMqttClient.h>
-
+#include <MQTT.h>
 #include <utility>
 #include "WiFiControl.h"
 #include "log/Logging.h"
@@ -20,7 +19,7 @@ public:
 
     bool connected();
 
-    void sendKeepAlive();
+    void loop();
 
     void publish(const char *topic, double payload);
 
@@ -28,7 +27,7 @@ public:
 
 private:
     WiFiClient wiFiClient = WiFiClient();
-    MqttClient mqttClient = MqttClient(wiFiClient);
+    MQTTClient mqttClient = MQTTClient();
     std::shared_ptr<LEDControl> ledControl;
 };
 
