@@ -4,7 +4,7 @@
 #include <cstdint>
 #include "log/Logging.h"
 #include "Adafruit_SI1145.h"
-#include "DHT.h"
+#include "SHT31.h"
 #include "config/Config.h"
 
 class SensorControl {
@@ -21,12 +21,12 @@ public:
 
     double getTemperature();
 
-    static uint16_t getMoisture();
+    static uint32_t getMoisture();
 
 
 private:
     Adafruit_SI1145 lightSensor = Adafruit_SI1145();
-    DHT tempHumiditySensor = DHT(DHT22_PIN, DHT22);
+    SHT31 tempHumiditySensor = SHT31();
 };
 
 #endif //PLANTOR_SENSORCONTROL_H

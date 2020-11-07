@@ -1,8 +1,7 @@
 #include "io/SensorControl.h"
 
 bool SensorControl::start() {
-  tempHumiditySensor.begin();
-  return lightSensor.begin();
+  return lightSensor.begin() && tempHumiditySensor.begin();
 }
 
 uint16_t SensorControl::getVisibleLight() {
@@ -18,27 +17,27 @@ double SensorControl::getUVIndex() {
 }
 
 double SensorControl::getHumidity() {
-  double humidity = tempHumiditySensor.readHumidity();
+  double humidity = tempHumiditySensor.getHumidity();
 
   if (isnan(humidity)) {
     log("Failed to read humidity from sensor, trying once more this run...");
     delay(2000);
-    humidity = tempHumiditySensor.readHumidity();
+    humidity = tempHumiditySensor.getHumidity();
   }
   return humidity;
 }
 
 double SensorControl::getTemperature() {
-  double temperature = tempHumiditySensor.readTemperature();
+  double temperature = tempHumiditySensor.getTemperature();
 
   if (isnan(temperature)) {
     log("Failed to read temperature from sensor, trying once more this run...");
     delay(2000);
-    temperature = tempHumiditySensor.readTemperature();
+    temperature = tempHumiditySensor.getTemperature();
   }
   return temperature;
 }
 
-uint16_t SensorControl::getMoisture() {
+uint32_t SensorControl::getMoisture() {
   return analogRead(MOISTURE_SENSOR_PIN);
 }
