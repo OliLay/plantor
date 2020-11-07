@@ -12,26 +12,6 @@ std::shared_ptr<MQTTControl> mqttControl = std::make_shared<MQTTControl>(ledCont
 std::shared_ptr<SensorControl> sensorControl = std::make_shared<SensorControl>();
 Clock clock;
 
-void setup() {
-    // safety delay, to be able to upload a new sketch
-    delay(4000);
-    Serial.begin(9600);
-
-    ledControl->setup();
-    ledControl->displayLoadingState();
-    WiFiControl::setup();
-    mqttControl->setup();
-    clock.setup();
-
-    bool startupSucceeded = sensorControl->start() && wiFiControl->connect() && mqttControl->connect();
-    ledControl->setStatus(startupSucceeded);
-}
-
-void loop() {
-    delay(100);
-    mqttControl->loop();
-}
-
 void measure() {
     ledControl->displayLoadingState();
     wiFiControl->assureConnection();
@@ -47,5 +27,29 @@ void measure() {
     clock.reset();
     ledControl->displayNormalState();
 }
+
+
+void setup() {
+    // safety delay, to be able to upload a new sketch
+    delay(4000);
+    Serial.begin(9600);
+
+    ledControl->setup();
+    ledControl->displayLoadingState();
+    WiFiControl::setup();
+    mqttControl->setup();
+    clock.setup(measure);
+
+    bool startupSucceeded = sensorControl->start() && wiFiControl->connect() && mqttControl->connect();
+    ledControl->setStatus(startupSucceeded);
+
+    measure();
+}
+
+void loop() {
+    delay(100);
+    mqttControl->loop();
+}
+
 
 

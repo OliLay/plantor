@@ -5,7 +5,7 @@
 
 class Clock {
 public:
-    void setup();
+    void setup(voidFuncPtr interruptCallback);
 
     void reset();
 
