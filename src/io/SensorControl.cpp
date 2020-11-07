@@ -6,18 +6,22 @@ bool SensorControl::start() {
 }
 
 uint16_t SensorControl::getVisibleLight() {
+    log("Reading visible...");
     return lightSensor.readVisible();
 }
 
 uint16_t SensorControl::getIR() {
+    log("Reading IR...");
     return lightSensor.readIR();
 }
 
 double SensorControl::getUVIndex() {
+    log("Reading UV index...");
     return lightSensor.readUV() / 100.0;
 }
 
 double SensorControl::getHumidity() {
+    log("Reading humidity...");
     double humidity = tempHumiditySensor.readHumidity();
 
     if (isnan(humidity)) {
@@ -29,6 +33,7 @@ double SensorControl::getHumidity() {
 }
 
 double SensorControl::getTemperature() {
+    log("Reading temperature...");
     double temperature = tempHumiditySensor.readTemperature();
 
     if (isnan(temperature)) {
@@ -40,5 +45,6 @@ double SensorControl::getTemperature() {
 }
 
 uint16_t SensorControl::getMoisture() {
+    log("Reading moisture...");
     return analogRead(MOISTURE_SENSOR_PIN);
 }
