@@ -21,9 +21,15 @@ public:
 
     void loop();
 
-    void publish(const char *topic, double payload);
+    template<class Payload>
+    void publish(const char *topic, Payload payload) {
+        auto stringifiedPayload = String(payload);
+        log("Publishing on topic %s with payload %s.", topic, stringifiedPayload.c_str());
 
-    void publish(const char *topic, uint16_t payload);
+        mqttClient.publish(topic, stringifiedPayload, false, 0);
+
+        ledControl->displayLoadingState();
+    }
 
 private:
     WiFiClient wiFiClient = WiFiClient();

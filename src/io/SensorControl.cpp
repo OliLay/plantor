@@ -26,6 +26,7 @@ double SensorControl::getHumidity() {
 
     if (isnan(humidity)) {
         log("Failed to read humidity from sensor, trying once more this run...");
+        tempHumiditySensor.begin();
         delay(2000);
         humidity = tempHumiditySensor.readHumidity();
     }
@@ -38,6 +39,7 @@ double SensorControl::getTemperature() {
 
     if (isnan(temperature)) {
         log("Failed to read temperature from sensor, trying once more this run...");
+        tempHumiditySensor.begin();
         delay(2000);
         temperature = tempHumiditySensor.readTemperature();
     }

@@ -17,7 +17,6 @@ bool WiFiControl::connect() {
 }
 
 void WiFiControl::assureConnection() {
-    ledControl->displayColor(139, 0, 139);
     while (WiFi.status() != WL_CONNECTED) {
         ledControl->displayErrorState();
         connect();
