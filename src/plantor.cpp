@@ -1,41 +1,55 @@
+#include <memory>
+
 #include "Arduino.h"
 #include "io/WiFiControl.h"
 #include "io/MQTTControl.h"
 #include "io/SensorControl.h"
+#include "clock/Clock.h"
 
-std::shared_ptr<LEDControl> ledControl = std::unique_ptr<LEDControl>(new LEDControl());
-std::shared_ptr<WiFiControl> wiFiControl = std::unique_ptr<WiFiControl>(new WiFiControl(ledControl));
-std::shared_ptr<MQTTControl> mqttControl = std::unique_ptr<MQTTControl>(new MQTTControl(ledControl));
-std::shared_ptr<SensorControl> sensorControl = std::unique_ptr<SensorControl>(new SensorControl());
+std::shared_ptr<LEDControl> ledControl = std::make_shared<LEDControl>();
+std::shared_ptr<WiFiControl> wiFiControl = std::make_shared<WiFiControl>(ledControl);
+std::shared_ptr<MQTTControl> mqttControl = std::make_shared<MQTTControl>(ledControl);
+std::shared_ptr<SensorControl> sensorControl = std::make_shared<SensorControl>();
+Clock clock;
+
+void measure() {
+    ledControl->displayLoadingState();
+    wiFiControl->assureConnection();
+    mqttControl->assureConnection();
+
+    mqttControl->publish("light/uv", sensorControl->getUVIndex());
+    mqttControl->publish("light/ir", sensorControl->getIR());
+    mqttControl->publish("light/visible", sensorControl->getVisibleLight());
+    mqttControl->publish("temperature", sensorControl->getTemperature());
+    mqttControl->publish("humidity", sensorControl->getHumidity());
+    mqttControl->publish("moisture", SensorControl::getMoisture());
+
+    clock.reset();
+    ledControl->displayNormalState();
+}
+
 
 void setup() {
-  // safety delay, to be able to upload a new sketch
-  delay(4000);
-  Serial.begin(9600);
+    // safety delay, to be able to upload a new sketch
+    delay(4000);
+    Serial.begin(9600);
 
-  ledControl->setup();
-  ledControl->displayLoadingState();
-  WiFiControl::setup();
-  mqttControl->setup();
+    ledControl->setup();
+    ledControl->displayLoadingState();
+    WiFiControl::setup();
+    mqttControl->setup();
+    clock.setup(measure);
 
-  bool startupSucceeded = sensorControl->start() && wiFiControl->connect() && mqttControl->connect();
-  ledControl->setStatus(startupSucceeded);
+    bool startupSucceeded = sensorControl->start() && wiFiControl->connect() && mqttControl->connect();
+    ledControl->setStatus(startupSucceeded);
+
+    measure();
 }
 
 void loop() {
-  ledControl->displayLoadingState();
-  wiFiControl->assureConnection();
-  mqttControl->assureConnection();
-
-  mqttControl->publish("light/uv", sensorControl->getUVIndex());
-  mqttControl->publish("light/ir", sensorControl->getIR());
-  mqttControl->publish("light/visible", sensorControl->getVisibleLight());
-  mqttControl->publish("temperature", sensorControl->getTemperature());
-  mqttControl->publish("humidity", sensorControl->getHumidity());
-  mqttControl->publish("moisture", SensorControl::getMoisture());
-
-  ledControl->displayNormalState();
-  delay(150000);
+    delay(100);
+    mqttControl->loop();
 }
+
 
 

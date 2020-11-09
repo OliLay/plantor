@@ -9,7 +9,7 @@
 #include "LedControl.h"
 
 class WiFiControl {
-  public:
+public:
     explicit WiFiControl(std::shared_ptr<LEDControl> ledControlPointer) : ledControl(std::move(ledControlPointer)) {};
 
     static void setup();
@@ -18,11 +18,11 @@ class WiFiControl {
 
     bool connect();
 
-  private:
+private:
     std::shared_ptr<LEDControl> ledControl;
 
-    char* ssid{};
-    char* password{};
+    char *ssid{};
+    char *password{};
     int status = WL_IDLE_STATUS;
 };
 

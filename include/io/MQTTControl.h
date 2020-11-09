@@ -1,8 +1,7 @@
 #ifndef PLANTOR_MQTTCONTROL_H
 #define PLANTOR_MQTTCONTROL_H
 
-#include <ArduinoMqttClient.h>
-
+#include <MQTT.h>
 #include <utility>
 #include "WiFiControl.h"
 #include "log/Logging.h"
@@ -20,15 +19,21 @@ public:
 
     bool connected();
 
-    void sendKeepAlive();
+    void loop();
 
-    void publish(const char* topic, double payload);
+    template<class Payload>
+    void publish(const char *topic, Payload payload) {
+        auto stringifiedPayload = String(payload);
+        log("Publishing on topic %s with payload %s.", topic, stringifiedPayload.c_str());
 
-    void publish(const char* topic, uint16_t payload);
+        mqttClient.publish(topic, stringifiedPayload, false, 0);
+
+        ledControl->displayLoadingState();
+    }
 
 private:
     WiFiClient wiFiClient = WiFiClient();
-    MqttClient mqttClient = MqttClient(wiFiClient);
+    MQTTClient mqttClient = MQTTClient();
     std::shared_ptr<LEDControl> ledControl;
 };
 
