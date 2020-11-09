@@ -23,12 +23,14 @@ void MQTTControl::loop() {
 }
 
 void MQTTControl::assureConnection() {
-    while (!connected()) {
+    bool isConnected = connected();
+    while (!isConnected) {
         ledControl->displayErrorState();
         log("Reconnecting to MQTT broker...");
-        if (connect()) {
+
+        isConnected = connect();
+        if (isConnected) {
             ledControl->displayLoadingState();
-            return;
         } else {
             delay(2500);
         }
